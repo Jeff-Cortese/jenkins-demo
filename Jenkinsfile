@@ -11,6 +11,12 @@ node('crowsnest') {
                 sh "npm install"
                 sh "npm run build"
             }
+
+            stage("Test") { ->
+                withEnv(["CI=true"]) { ->
+                    sh "npm test"
+                }
+            }
         }
     } catch(ex) {
         //TODO slack exeception
