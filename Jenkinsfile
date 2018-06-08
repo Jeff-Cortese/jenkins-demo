@@ -5,7 +5,13 @@ node('crowsnest') {
     echo "Branch name ${env.BRANCH_NAME}"
 
     try {
-
+        def nodeImage = docker.image("node:8.11.2")
+        nodeImage.inside { ->
+            stage("Build") { ->
+                sh "npm install"
+                sh "npm run build"
+            }
+        }
     } catch(ex) {
         //TODO slack exeception
         throw ex
