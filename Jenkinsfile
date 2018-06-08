@@ -7,12 +7,17 @@ node('crowsnest') {
         def mainBuild = { ->
             def nodeImage = docker.image('node:8.11.2')
 
-            stage('build') {
-                nodeImage.inside { ->
+            nodeImage.inside { ->
+                stage('build') {
                     sh "npm install"
                     sh "npm run build"
                 }
+
+                stage('Test') { ->
+                    sh "npm test"
+                }
             }
+
         }
 
         mainBuild()
