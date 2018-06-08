@@ -15,8 +15,12 @@ node('crowsnest') {
 
                 stage('Test') { ->
                     withEnv(["CI=true"]) { ->
-                        sh "CI=true && npm test"
+                        sh "npm test"
                     }
+                }
+
+                stage('Deploy GH Pages') { ->
+                    sh "npm run deploy"
                 }
             }
 
