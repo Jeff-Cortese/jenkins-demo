@@ -14,7 +14,7 @@ node('crowsnest') {
                 }
 
                 stage('Test') { ->
-                    withEnv("CI=true") { ->
+                    withEnv(["CI=true"]) { ->
                         sh "CI=true && npm test"
                     }
                 }
