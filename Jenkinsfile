@@ -18,12 +18,16 @@ node('crowsnest') {
                         sh "npm test"
                     }
                 }
-
-                stage('Deploy GH Pages') { ->
-                    sh "npm run deploy"
-                }
             }
 
+            def awsCli = docker.image('cleo/crows-awscli:0.0.1')
+            awsCli.inside { ->
+                stage('Deploy') { ->
+                    def s3BucketName = "jcortese-jenkins-demo"
+                    sh "aws s3 sync ./build s3://${s3BucketName} --acl \"public-read\""
+                    sh "aws s3 website s3://${s3BucketName} --index-document index.html --error-document index.html" // host the bucket as a web site"
+                }
+            }
         }
 
         mainBuild()
