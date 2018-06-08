@@ -28,10 +28,13 @@ node('crowsnest') {
                     sh "aws s3 website s3://${s3BucketName} --index-document index.html --error-document index.html" // host the bucket as a web site"
                 }
             }
+
+            slackSend channel: "@jeff", color: "good", message: "http://jcortese-jenkins-demo.s3-website-us-west-2.amazonaws.com/"
         }
 
         mainBuild()
     } catch(ex) {
+        slackSend channel: "@jeff", color: "danger", message: ex.message
         println ex
         throw ex;
     }
