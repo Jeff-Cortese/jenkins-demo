@@ -9,6 +9,7 @@ node('crowsnest') {
 
             stage('build') {
                 nodeImage.inside { ->
+                    sh "npm install"
                     sh "npm run build"
                 }
             }
